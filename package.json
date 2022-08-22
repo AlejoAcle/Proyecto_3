@@ -1,0 +1,25 @@
+{
+  "name": "proyecto-3-pruebas",
+  "version": "1.0.0",
+  "description": "prueba1",
+  "main": "server2.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server2.js",
+    "dev": "nodemon server2.js"
+  },
+  "author": "Alejo",
+  "license": "ISC",
+  "devDependencies": {
+    "nodemon": "^2.0.19"
+  },
+  "dependencies": {
+    "bcrypt": "^5.0.1",
+    "cloudinary": "^1.30.1",
+    "dotenv": "^16.0.1",
+    "express": "^4.18.1",
+    "express-fileupload": "^1.4.0",
+    "jsonwebtoken": "^8.5.1",
+    "mongoose": "^6.5.1"
+  }
+}
