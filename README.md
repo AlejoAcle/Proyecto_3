@@ -1,8 +1,8 @@
 # Título del Proyecto
 
-<p align="center" fontweight="bold">Desarrollo Backend para aplicación de _Crossfit_</p>
+<p align="center" fontweight="bold">Desarrollo Backend para aplicación de Crossfit</p>
 <p align="center">
-    <img src = "kisspng-computer-icons-download-5b28c0a0115797.803029611529397408071.png" widht="200px" height="200px">
+    <img src = "https://github.com/AlejoAcle/Proyecto_3/blob/master/images/kisspng-computer-icons-download-5b28c0a0115797.803029611529397408071.png" widht="200px" height="200px">
 </p>
 
 ## Comenzando 🚀
@@ -23,8 +23,8 @@ _Proyecto 3 del Bootcamp **FullStack**_, creación del servidor y desarrollo del
 
 ### Tecnologías empleadas 🔧
 
-<h3 align="left">Languages and Tools:</h3>
-<p align="left"> <a href="https://expressjs.com" target="_blank" rel="noreferrer"> <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/express/express-original-wordmark.svg" alt="express" width="40" height="40"/> </a> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript" target="_blank" rel="noreferrer"> <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/javascript/javascript-original.svg" alt="javascript" width="40" height="40"/> </a> <a href="https://www.mongodb.com/" target="_blank" rel="noreferrer"> <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/mongodb/mongodb-original-wordmark.svg" alt="mongodb" width="40" height="40"/> </a> <a href="https://nodejs.org" target="_blank" rel="noreferrer"> <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/nodejs/nodejs-original-wordmark.svg" alt="nodejs" width="40" height="40"/> </a> </p>
+
+<p align="center"> <a href="https://expressjs.com" target="_blank" rel="noreferrer"> <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/express/express-original-wordmark.svg" alt="express" width="60" height="60"/> </a> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript" target="_blank" rel="noreferrer"> <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/javascript/javascript-original.svg" alt="javascript" width="60" height="60"/> </a> <a href="https://www.mongodb.com/" target="_blank" rel="noreferrer"> <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/mongodb/mongodb-original-wordmark.svg" alt="mongodb" width="60" height="60"/> </a> <a href="https://nodejs.org" target="_blank" rel="noreferrer"> <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/nodejs/nodejs-original-wordmark.svg" alt="nodejs" width="60" height="60"/> </a> </p>
 
 
 
@@ -56,17 +56,28 @@ Descripción de las funcionalidades aplicadas.
 ## Rutas 🚅
 
 Usuario
-    -`.post(/register)`- Ruta abierta para que el usuario pueda hacer el registro
-    -`.post(/login)` - Ruta abierta donde el usuario puede iniciar su sesión
-    -`.get(/exercises/:id)` - Ruta para poder ver los ejercicios
-    -`.get(/classes)` - Ruta para conocer las clases disponibles
-    -`.post(/newMarks)` - Ruta para poder guardar los resultados personales
-    -`.get(/timetable/:id)` - Ruta para conocer el horario de clases
-    -`.get(updateUsers/:id)` - Ruta para poder actualizar algún parametro del usuario
-    -`.get(/wods)` - Ruta para conocer los wods que se programen
-    -`.get(/booking/:id)` - Ruta para poder ver las reservas como usuario
-    -`.post(/newBooking)` - Ruta para realizar una reserva
-    -`.post(/updateBooking/:id)` - Ruta para modificar la reserva
+
+-`.post(/register)`- Ruta abierta para que el usuario pueda hacer el registro
+
+-`.post(/login)` - Ruta abierta donde el usuario puede iniciar su sesión
+
+-`.get(/exercises/:id)` - Ruta para poder ver los ejercicios
+
+-`.get(/classes)` - Ruta para conocer las clases disponibles
+
+-`.post(/newMarks)` - Ruta para poder guardar los resultados personales
+
+-`.get(/timetable/:id)` - Ruta para conocer el horario de clases
+
+-`.get(updateUsers/:id)` - Ruta para poder actualizar algún parametro del usuario
+
+-`.get(/wods)` - Ruta para conocer los wods que se programen
+
+-`.get(/booking/:id)` - Ruta para poder ver las reservas como usuario
+
+-`.post(/newBooking)` - Ruta para realizar una reserva
+
+-`.post(/updateBooking/:id)` - Ruta para modificar la reserva
 
 
 
