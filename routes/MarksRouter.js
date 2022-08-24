@@ -3,17 +3,23 @@ const Marks = require("../models/Marks")
 const MarksRouter = express.Router()
 const Users = require("../models/Users")
 const auth = require("../middleware/auth")
-//solo crear y borrar, las veré en el ejercicio (las marcas obtenidas en cada movimiento)
 
 
 
+// Ruta para crear una marca nueva
 MarksRouter.post("/newMarks", auth ,async (req, res)=>{
+
     try{
         const{date,reps,weight,comment,exercisesId} = req.body
 
         const user = await Users.findById(req.user.id)
 
-        if(!date || !reps || !weight || !comment || !exercisesId ){
+        if (!user) return res.status(500).json({
+            success: false,
+            message: `No has iniciado sesión`
+        })
+
+        if(!date || !reps || !weight || !exercisesId ){
             return res.status(400).send({
                 success:true,
                 message:"Completa los campos"
@@ -26,7 +32,14 @@ MarksRouter.post("/newMarks", auth ,async (req, res)=>{
             })
         }
 
-        let marks = new Marks({
+        if (reps  <= 0 || weight <=0){
+            return res.status(400).json({
+                success: false,
+                message: "Las repeticiones y el peso no pueden ser negativos"
+            })
+        }
+
+        let mark = new Mark({
             date,
             reps,
             weight,
@@ -34,11 +47,12 @@ MarksRouter.post("/newMarks", auth ,async (req, res)=>{
             exercices:exercisesId,
             user
         })
-        await marks.save()
+        // await marks.save()
+        let newMark = await mark.save()
         return res.status(200).send({
             success:true,
             message:"Datos cargados correctamente",
-            marks
+            mark: newMark
         })
     }catch(error){
         return res.status(500).send({
@@ -48,7 +62,30 @@ MarksRouter.post("/newMarks", auth ,async (req, res)=>{
     }
 })
 
-//falta delete
+// Eliminar una marca por ID
+
+MarksRouter.delete("/deleteUserMark/:id", auth, async (req, res) =>{
+    try {
+        const {id} = req.params
+        const user = await Users.findById(req.user.id)
+        if (!user) return res.status(500).json({
+            success: false,
+            message: `El usuario no está logueado`
+        })
+        
+        await Mark.findByIdAndDelete(id)
+        return res.status(200).json({
+            success: true,
+            message: "Marca eliminada correctamente"
+        })
+
+    } catch (error) {
+        return res.status(500).json({
+            success: false,
+            message: error.message
+        })  
+    }
+})
 
 
 

@@ -3,75 +3,142 @@ const auth = require("../middleware/auth")
 const authAdmin = require("../middleware/authAdmin")
 const Classes = require("../models/Classes")
 const ClassesRouter = express.Router()
+const TimeTable = require("../models/TimeTable")
+const Users = require("../models/Users")
 
-//Esta ruta coge todas las clase
+//Esta ruta coge todas las clases
 ClassesRouter.get("/classes", auth,async (req, res) => {
     try {
-        let classe = await Classes.find({})
-
-        return res.status(200).send({
-            success: true,
-            message: "Clase",
-            classe
-        })
-    } catch (error) {
-        return res.status(500).send({
+        const user = await Users.findById(req.user.id)     
+        if (!user) return res.status(500).json({          
             success: false,
-            message: error.message
+            message: `El usuario no está logueado`
         })
-    }
-})
 
-
-ClassesRouter.post("/newClasses",auth,authAdmin, async (req, res) => {
-    const {
-        date,
-        wodDay
-    } = req.body
-    try {
-        let classes = new Classes({
-            date, //una fecha pasamos
-            wodDay
-        })
-        if (!date || !wodDay) {
-            return res.status(400).send({
-                success: false,
-                message: "Completa todos los campos"
-            })
-        }
-        return res.status(200).send({
+        let classes = await Classes.find({})
+        return res.status(200).json({
             success: true,
-            message: "Clase creada correctamente",
             classes
         })
+            
     } catch (error) {
-        return res.status(500).send({
+        return res.status(500).json({
             success: false,
             message: error.message
-        })
+        }) 
     }
 })
 
-//put y delete una con el id de classe
-
-ClassesRouter.put("/updateClasse/:id",auth, authAdmin, async (req,res)=>{
+// Ruta para crear una clase por usuario logueado
+ClassesRouter.post("/newClasses",auth,authAdmin, async (req, res) => {
+    const {date, wodDay} = req.body
     try {
-        const{id} = req.params
-        const{classe} = req.body
-        await Classes.findByIdAndUpdate(id,{classe})
-        return res.status(200).send({
-            success:true,
-            message:"Clase modificada"
+        const user = await Users.findById(req.user.id)
+        if (!user) return res.status(400).json({
+            success: false,
+            message: "Usuario no logueado"
+        })
+
+        const date1 = await Classes.findOne({date})    // Compruebo si ya existe una clase con esa fecha
+        if (date1) return res.status(400).json({
+            success: false,
+            message: `Ya existe una clase con la fecha ${date}`
+        })
+
+        if (!date || !wodDay){
+            return res.status(400).json({
+                success: false,
+                message: "La fecha y el WOD es obligatorio"
+            })
+        }
+    
+        const newClass = new Classes({
+            date,
+            wodDay
+        })
+        await newClass.save()
+        res.status(200).json({
+            success: true,
+            message: `Se ha creado la clase del día ${date} correctamente`
         })
     } catch (error) {
-        return res.status(500).send({
-            success:false,
-            message:error.message
+        return res.status(500).json({
+            success: false,
+            message: error.message
+        }) 
+    }
+    
+})
+
+// Ruta para modificar una Clase estando logueado
+
+ClassesRouter.put("/updateClass/:id", auth, authAdmin, async (req, res) =>{
+    try {
+        const {id} = req.params
+        const {date, wodDay} = req.body
+
+        const user = await Users.findById(req.user.id)
+        if (!user) return res.status(400).json({
+            success: false,
+            message: "Usuario no logueado"
         })
+        
+        const clas = await Classes.findOne({date})  // Compruebo si la fecha existe
+        if(clas) return res.status(400).json({
+            success:false,
+            message: `La clase del '${date}' ya está creado.` 
+        })
+
+       
+        await Classes.findByIdAndUpdate(id, {date, wodDay})
+        res.status(200).json({
+            success: true,
+            message: `La clase se ha modificado correctamente.`
+        })
+    } catch (error) {
+        return res.status(500).json({
+            success: false,
+            message: error.message
+        })  
     }
 })
 
+// Eliminar una clase por ID
 
+ClassesRouter.delete("/deleteClass/:id", auth, authAdmin, async (req, res) =>{
+    try {
+        const {id} = req.params
+        const user = await Users.findById(req.user.id)
+        if (!user) return res.status(400).json({
+            success: false,
+            message: "Usuario no logueado"
+        })
+
+        await Classes.findByIdAndDelete(id)
+        TimeTable.find({date: id}).then(foundTimeTable =>{
+            foundTimeTable.map((arrTime)=>{
+                TimeTable.findByIdAndDelete(arrTime._id, function(err, arrTime){
+                    if (err){
+                        console.log(err)
+                    }else{
+                        console.log("Horario eliminado")
+                    }
+                })
+            })
+        })
+
+        return res.status(200).json({
+            success: true,
+            message: "La clase se ha eliminado correctamente"
+        })
+
+    } catch (error) {
+        return res.status(500).json({
+            success: false,
+            message: error.message
+        })  
+    }
+})
 
 
 
