@@ -5,26 +5,9 @@ const auth = require("../middleware/auth")
 const Users = require("../models/Users")
 const authAdmin = require("../middleware/authAdmin")
 
-TimeTableRouter.get("/timetable/:id",auth , async (req, res)=>{
-    try{
-        const{id} = req.params
-        let timetable = await TimeTable.findById(id).populate({path:"user", select:"name"}).populate({path:"date",select:"Classes"})
-
-        return res.status(200).send({
-            success:true,
-            message:"Horario creado",
-            timetable
-        })
-    }catch(error){
-        return res.status(500).send({
-            success:false,
-            message:error.message
-        })
-    }
-})
 
 
-TimeTableRouter.post("/newTimeTable", auth,authAdmin ,async (req,res)=>{
+TimeTableRouter.post("/newTimeTable/:dateID", auth,authAdmin ,async (req,res)=>{
     const {time, nPeople} = req.body
     const {dateID} = req.params
     try {
@@ -84,7 +67,7 @@ TimeTableRouter.post("/newTimeTable", auth,authAdmin ,async (req,res)=>{
     
 })
 
-TimetableRouter.put("/updateTimeTable/:id", auth, authAdmin, async (req,res) =>{
+TimeTableRouter.put("/updateTimeTable/:id", auth, authAdmin, async (req,res) =>{
     const {time, nPeople, dateID} = req.body
     const {id} = req.params
 
@@ -118,7 +101,7 @@ TimetableRouter.put("/updateTimeTable/:id", auth, authAdmin, async (req,res) =>{
 
 // Ruta para eliminar un horario por ID
 
-TimetableRouter.delete("/deleteTimeTable/:id", auth, authAdmin, async (req, res) =>{
+TimeTableRouter.delete("/deleteTimeTable/:id", auth, authAdmin, async (req, res) =>{
     try {
         const {id} = req.params
         const user = await Users.findById(req.user.id)    

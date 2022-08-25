@@ -8,6 +8,10 @@ date:{
 wodDay:{
     type: String,
     required: true
+},
+times:{
+    type: mongoose.Types.ObjectId,
+    ref: "TimeTable"
 }
 })
 

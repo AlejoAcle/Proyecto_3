@@ -6,7 +6,6 @@ const WodsRouter = express.Router()
 const Users = require("../models/Users")
 
 // Ruta para crear un WOD
-
 WodsRouter.post("/createWod", auth, authAdmin, async (req, res) =>{
     try {
         const{type, name, time, description} = req.body
@@ -63,7 +62,6 @@ WodsRouter.post("/createWod", auth, authAdmin, async (req, res) =>{
     })
     
     // Listar todos los WODS
-    
     WodsRouter.get("/wodsList", auth, async (req, res) =>{
         try {
             const user = await Users.findById(req.user.id)     
@@ -88,7 +86,6 @@ WodsRouter.post("/createWod", auth, authAdmin, async (req, res) =>{
     
     
     //Modificar un wod por ID
-    
     WodsRouter.put("/updateWod/:id", auth, authAdmin, async (req, res) =>{
         try {
             const {id} = req.params
@@ -134,7 +131,6 @@ WodsRouter.post("/createWod", auth, authAdmin, async (req, res) =>{
     })
     
     // Eliminar un wod por ID
-    
     WodsRouter.delete("/deleteWod/:id", auth, authAdmin, async (req, res) =>{
         try {
             const {id} = req.params

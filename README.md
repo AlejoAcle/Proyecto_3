@@ -55,31 +55,15 @@ Descripción de las funcionalidades aplicadas.
 
 ## Rutas 🚅
 
-Usuario (Rutas abiertas y privadas con rol de USER)
+Users 
 
 -`.post(/register)`- Ruta abierta para que el usuario pueda hacer el registro
 
 -`.post(/login)` - Ruta abierta donde el usuario puede iniciar su sesión
 
--`.get(/exercises/:id)` - Ruta para poder ver los ejercicios
-
--`.get(/classes)` - Ruta para conocer las clases disponibles
-
--`.post(/newMarks)` - Ruta para poder guardar los resultados personales
-
--`.get(/timetable/:id)` - Ruta para conocer el horario de clases
-
 -`.get(/updateProfile)` - Ruta para poder actualizar algún parametro del usuario
 
--`.get(/wodsList)` - Ruta para conocer los wods que se programen
-
--`.get(/booking/:id)` - Ruta para poder ver las reservas como usuario
-
--`.post(/newBooking)` - Ruta para realizar una reserva
-
--`.put(/updateBooking/:id)` - Ruta para modificar la reserva
-
--`.del(/deleteUsers)` - Ruta que permite eliminar un usuario a través del token
+-`.del(/deleteUser)` - Ruta que permite eliminar un usuario a través del token
 
 -`.del(/destroyPhoto)` - Ruta para eliminar foto de perfil/usuario
 
@@ -87,47 +71,72 @@ Usuario (Rutas abiertas y privadas con rol de USER)
 
 -`.get(/profile)` - Ruta que permite ver el perfil de usuario
 
--`.get(/timetable/:id)` - Ruta para ver el horario publicado
-
--`.del(/deleteUserMark/:id)` - Ruta que permite modificar las marcas publicadas por el usuario en algún ejercicio, a través del ID
-
 -`.get(/exercicesUser)` - Ruta para ver los ejercicios del usuario al loguearse
 
--`.get(/marksUserList/:id)` - Ruta para ver los resultados de cada ejercicio por su ID
+-`.get(/usersList)` - Ruta para visualizar la totalidad de usuarios registrados
+
+-`.del(deleteUsers/:id)` - Ruta para eliminar algún usuario mediante su ID
+
+
+
+Booking
+
+-`.post(/newBooking)` - Ruta para realizar una reserva
+
+-`.del(/deleteBooking/:id)` - Ruta para eliminar una reserva por ID
+
+
+Classes
+
+-`.get(/classes)` - Ruta para conocer las clases disponibles
+
+-`.get(/newClasses)` - Ruta ADMIN para crear las clases 
+
+-`.get(/updateClass/:id)` - Ruta ADMIN que permite modificar una clase a través de su ID
+
+-`.del(/deleteClass/:id)` - Ruta ADMIN para eliminar la clase creada a través de su ID
+
+-`.get(/classesList/:id)` - Ruta para ver clases y horario disponible a través del ID de la clase
+
+
+Exercises
 
 -`.put(/updateExercice/:id)` - Ruta para modificar un ejercicio a través de su ID
 
 -`.del(/deleteExercice/:id)` - Ruta para eliminar un ejercico a través de su ID
 
-
-Administrador (todas estas rutas son privadas y unicamente accesibles si el rol es de ADMIN)
+-`.get(/exercises/:id)` - Ruta para poder ver los ejercicios
 
 -`.post(/newExercises)`- Ruta para crear el repositorio de ejercicios
 
 -`.post(/updateExercises/:id)` - Ruta que permite modificar cada ejercicio del repositorio
 
--`.get(/newClasses)` - Ruta para crear las clases
 
--`.get(/updateClasse/:id)` - Ruta que permite modificar una clase a través de su ID
+Marks
 
--`.post(/newTimeTable)` - Ruta para crear el horario de entrenamiento de un día
+-`.del(/deleteUserMark/:id)` - Ruta que permite modificar las marcas publicadas por el usuario en algún ejercicio, a través del ID
 
--`.post(/updateTimeTable/:id)` - Ruta que permite modificar el horario creado
+-`.post(/newMarks)` - Ruta para poder guardar los resultados personales
 
--`.get(/usersList)` - Ruta para visualizar la totalidad de usuarios registrados
 
--`.post(/createWod)` - Ruta para crear y publicar el entrenamiento del día
+TimeTable
 
--`.post(/updateWod/:id)` - Ruta que permite modificar el entrenamiento del día publicado
+-`.post(/newTimeTable)` - Ruta ADMIN para crear el horario de entrenamiento de un día
 
--`.del(/dUsers/:id)` - Ruta para eliminar algún usuario mediante su ID
+-`.put(/updateTimeTable/:id)` - Ruta ADMIN que permite modificar el horario creado
 
--`.del(/deleteTimeTable/:id)` - Ruta para eliminar un horario publicado a través de su ID
+-`.del(/deleteTimeTable/:id)` - Ruta ADMIN para eliminar un horario publicado a través de su ID
 
--`.del(/deleteClass/:id)` - Ruta para eliminar la clase creada a través de su ID
 
--`.del(/deleteBooking/:id)` - Ruta para eliminar una reserva por ID
+WODs
 
+-`.get(/wodsList)` - Ruta para conocer los wods que se programen
+
+-`.post(/createWod)` - Ruta ADMIN para crear y publicar el entrenamiento del día
+
+-`.put(/updateWod/:id)` - Ruta ADMIN que permite modificar el entrenamiento del día publicado
+
+-`.del(/deleteWod/:id)` - Ruta ADMIN que permite modificar el entrenamiento del día publicado
 
 
 ## Versionado 📌

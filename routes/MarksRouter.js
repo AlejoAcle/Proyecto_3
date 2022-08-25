@@ -21,7 +21,7 @@ MarksRouter.post("/newMarks", auth ,async (req, res)=>{
 
         if(!date || !reps || !weight || !exercisesId ){
             return res.status(400).send({
-                success:true,
+                success:false,
                 message:"Completa los campos"
             })
         }
@@ -39,7 +39,7 @@ MarksRouter.post("/newMarks", auth ,async (req, res)=>{
             })
         }
 
-        let mark = new Mark({
+        let mark = new Marks({
             date,
             reps,
             weight,
@@ -73,7 +73,7 @@ MarksRouter.delete("/deleteUserMark/:id", auth, async (req, res) =>{
             message: `El usuario no está logueado`
         })
         
-        await Mark.findByIdAndDelete(id)
+        await Marks.findByIdAndDelete(id)
         return res.status(200).json({
             success: true,
             message: "Marca eliminada correctamente"

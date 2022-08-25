@@ -15,7 +15,7 @@ ClassesRouter.get("/classes", auth,async (req, res) => {
             message: `El usuario no está logueado`
         })
 
-        let classes = await Classes.find({})
+        let classes = await Classes.find({}).populate({path:"times", select:"time"})
         return res.status(200).json({
             success: true,
             classes
@@ -28,6 +28,62 @@ ClassesRouter.get("/classes", auth,async (req, res) => {
         }) 
     }
 })
+
+//Ruta para coger una clase y su horario
+// ClassesRouter.get("/classDay/:id", auth, async ( req, res)=>{
+//     try {
+//         const{id} = req.params
+
+//         const user = await Users.findById(req.user.id)
+//         if (!user) return res.status(400).json({
+//             success: false,
+//             message: "Usuario no logueado"
+//         })
+
+//         let classDay = await Classes.findById(id).populate({path:"times", select:"time"})
+//         return res.status(200).json({
+//             success: true,
+//             classDay
+//         })
+        
+//     } catch (error) {
+//         return res.status(500).json({
+//             success: false,
+//             message: error.message
+//         })
+      
+//     }
+// })
+
+ ClassesRouter.get("/classesList/:id", auth, async (req, res) => {
+     try {
+         const dateID = req.params.id
+         const user = await Users.findById(req.user.id)
+         if (!user) return res.status(400).json({
+             success: false,
+             message: "Usuario no logueado"
+         })
+
+         Classes.findById(dateID) //.populate("date")
+         .then(date => {
+             TimeTable.find({ date: dateID }) //.populate("date")
+                 .then(timeTable => {
+                    return res.json({
+                         success: true,
+                        date,
+                         timeTable
+                    })
+                 })
+         })
+
+     } catch (error) {
+         return res.status(500).json({
+             success: false,
+             message: error.message
+         })  
+     }
+ })
+
 
 // Ruta para crear una clase por usuario logueado
 ClassesRouter.post("/newClasses",auth,authAdmin, async (req, res) => {

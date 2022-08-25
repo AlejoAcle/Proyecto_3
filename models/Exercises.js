@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 
 const ExerciceSchema = new mongoose.Schema({
-nameExercise:{
+nameExercice:{
     type: String,
     required: true
 },

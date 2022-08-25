@@ -1,5 +1,5 @@
 const express = require("express")
-const Exercises = require("../models/Exercises")
+const Exercices = require("../models/Exercises")
 const ExercisesRouter = express.Router()
 //para poder relacionar los ejercicios, que cada usuario realiza y anote sus marcas
 const auth = require("../middleware/auth")
@@ -14,7 +14,7 @@ const authAdmin = require("../middleware/authAdmin")
 
 // Listar ejercicios de un usuario logueado
 
-ExercicesRouter.get("/exercicesUser", auth, async (req, res) => {
+ExercisesRouter.get("/exercicesUser", auth, async (req, res) => {
 
     const user = await Users.findById(req.user.id)
     if (!user) return res.status(400).json({
@@ -38,7 +38,7 @@ ExercicesRouter.get("/exercicesUser", auth, async (req, res) => {
 
 // Listar ejercicios por ID y que aparezcan sus marcas
 
-ExercicesRouter.get("/marksUserList/:id", auth, async (req, res) => {
+ExercisesRouter.get("/marksUserList/:id", auth, async (req, res) => {
     const exerciceID = req.params.id
 
     const user = await Users.findById(req.user.id)
@@ -49,7 +49,7 @@ ExercicesRouter.get("/marksUserList/:id", auth, async (req, res) => {
 
     Exercices.findById(exerciceID) //.populate("name")
         .then(exercices => {
-            Mark.find({ exercices: exerciceID }) //.populate("exercices")
+            Marks.find({ exercices: exerciceID }) //.populate("exercices")
                 .then(marks => {
                     return res.json({
                         success: true,
@@ -61,28 +61,23 @@ ExercicesRouter.get("/marksUserList/:id", auth, async (req, res) => {
 })
 
 //OJO:si se queda oscuro sin error, siempre que haya dos returns, hay algo sin cerrar bien, en una condicion solo puede existir un Return.
-ExercisesRouter.post("/newExercises", auth, authAdmin ,async (req,res)=>{
-    try{
-        const{nameExercise} = req.body
-        const user = await Users.findById(req.user.id)
-
+ExercisesRouter.post("/newExercises", auth, async (req, res) =>{
+    try {
+        const {nameExercice} = req.body
+        // const {userID} = req.user
+        const user = await Users.findById(req.user.id)  
+        // console.log(user)   // Busca en el modelo de usuario si encuentra la ID pasada por token
         if (!user) return res.status(500).json({           // Si no encuentra la id de usuario es que no está logueado
             success: false,
             message: `El usuario no está logueado`
         })
-
-        if (!nameExercise){
-            return res.status(400).send({
-                success:true,
-                message:"Completa los campos"
+        
+        if (!nameExercice){
+            return res.status(400).json({
+                success: false,
+                message: "No puede dejar el campo el blanco"
             })
         }
-        if(!isNaN(nameExercise)){
-            return res.status(400).send({
-                success:false,
-                message:"Introduce un ejercicio válido"
-            })
-        }    
 
         // Compruebo si el ejercicio existe para el usuario logueado
 
@@ -131,7 +126,7 @@ ExercisesRouter.post("/newExercises", auth, authAdmin ,async (req,res)=>{
 
 // Ruta mara modificar un ejercicio por ID pasando ID de usuario por token
 
-ExercicesRouter.put("/updateExercice/:id", auth, async (req, res) =>{
+ExercisesRouter.put("/updateExercice/:id", auth, async (req, res) =>{
     try {
         const {id} = req.params
         const {nameExercice} = req.body
@@ -171,7 +166,7 @@ ExercicesRouter.put("/updateExercice/:id", auth, async (req, res) =>{
 
 // Ruta para eliminar un ejercicio por ID pero estando logueado
 
-ExercicesRouter.delete("/deleteExercice/:id", auth, async (req, res) =>{
+ExercisesRouter.delete("/deleteExercice/:id", auth, async (req, res) =>{
     try {
         const {id} = req.params
 
@@ -184,9 +179,9 @@ ExercicesRouter.delete("/deleteExercice/:id", auth, async (req, res) =>{
         await Exercices.findByIdAndDelete(id)
 
         //Elimino las marcas que están asociadas al ejercicio
-        Mark.find({exercices: id}).then(foundMarks =>{
+        Marks.find({exercices: id}).then(foundMarks =>{
             foundMarks.map((arrMark)=>{
-                Mark.findByIdAndDelete(arrMark._id, function(err, arrMark){
+                Marks.findByIdAndDelete(arrMark._id, function(err, arrMark){
                     if (err){
                         console.log(error)
                     }else{

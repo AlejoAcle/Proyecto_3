@@ -28,15 +28,6 @@ cloudinary.config({
 UsersRouter.post("/register", async (req, res)=>{
     try {
         const{name, surname, email, password, imagen} = req.body
-        
-        
-            
-
-        const user2 = await Users.findById(req.user.id)     // Busca en el modelo de usuario si encuentra la ID pasada por token
-            if (!user2) return res.status(500).json({           // Si no encuentra la id de usuario es que no está logueado
-                success: false,
-                message: `El usuario no está logueado`
-            })
 
 
         const user = await Users.findOne({email})  // busca si el email existe. Si existe no lo crea
@@ -89,9 +80,7 @@ UsersRouter.post("/register", async (req, res)=>{
 })
 
 
-
 //Ruta para hacer LOGIN , post que reconozca el usuario
-
 UsersRouter.post("/login", async (req, res)=>{
     try {
         const{email, password} = req.body
@@ -135,7 +124,6 @@ UsersRouter.post("/login", async (req, res)=>{
 
 
 // Ruta privada para ver perfil de usuario enviando token
-
 UsersRouter.get("/profile", auth, async (req,res) =>{
     
         try {
@@ -162,7 +150,6 @@ UsersRouter.get("/profile", auth, async (req,res) =>{
 
 
 // Ruta para modificar perfil enviando ID de usuario por token
-
 UsersRouter.put("/updateProfile", auth, async (req, res) =>{
     
     try {
@@ -224,11 +211,7 @@ UsersRouter.put("/updateProfile", auth, async (req, res) =>{
 })
 
 
-
-
 // Ruta para subir una imagen
-
-
 UsersRouter.post('/upload', auth, async(req, res) =>{
     try {
         const user = await Users.findById(req.user.id)
@@ -269,7 +252,6 @@ UsersRouter.post('/upload', auth, async(req, res) =>{
 })
 
 // Ruta para Eliminar imagen
-
 UsersRouter.post("/destroyPhoto", auth, async(req, res) =>{
     try {
         const {public_id} = req.body
@@ -286,7 +268,6 @@ UsersRouter.post("/destroyPhoto", auth, async(req, res) =>{
 })
 
 // Ruta para eliminar usuario por token
-
 UsersRouter.delete("/deleteUser", auth, async (req, res) =>{
     try {
        
@@ -394,7 +375,6 @@ UsersRouter.delete("/deleteUsers/:id", auth, authAdmin, async (req, res) =>{
 
 
 //Ruta para listar Usuarios
-
 UsersRouter.get("/usersList", auth, authAdmin, async (req,res) =>{
 
     try {

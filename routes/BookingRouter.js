@@ -8,24 +8,6 @@ const auth = require("../middleware/auth")
 const TimeTable = require("../models/TimeTable")
 
 
-//RUTA GET
-BookingRouter.get("/booking/:id",auth, async (req,res)=>{
-    try{
-        const{id} = req.params
-        let booking = await Booking.findById(id).populate({path:"user", select:"name"}).populate({path:"clase", select:"date wodDay"}).populate({path:"timeTable", select:"time"})
-
-        return res.status(200).send({
-            success:true,
-            message:"Reserva realizada con exíto",
-            booking
-        })
-    }catch(error){
-        return res.status(500).send({
-            success:false,
-            message:error.message
-        })
-    }
-})
 //RUTA POST
 BookingRouter.post("/newBooking",auth, async (req,res)=>{
 
@@ -76,13 +58,13 @@ BookingRouter.post("/newBooking",auth, async (req,res)=>{
 
         newBooking = new Booking({
             user: req.user.id,
-            class: classID,
-            timeTable: timeTableID
+            class: claseId,
+            timeTable: timeTableId
         })
         await newBooking.save()
 
         
-         await TimeTable.findByIdAndUpdate(timeTableID, {
+         await TimeTable.findByIdAndUpdate(timeTableId, {
             $push: {numTotPeople: user._id }
         })
         
@@ -98,23 +80,6 @@ BookingRouter.post("/newBooking",auth, async (req,res)=>{
             success: false,
             message: error.message
         }) 
-    }
-})
-//RUTA PUT
-BookingRouter.put("/updateBooking/:id",auth, async (req,res)=>{
-    try{
-        const{id} = req.params
-        const{timeTable} = req.body
-        await Booking.findByIdAndUpdate(id,{timeTable})
-        return res.status(200).send({
-            succes:true,
-            message:"Reserva modificada"
-        })
-    }catch(error){
-        return res.status(500).send({
-            succes:false,
-            message:error.message
-        })
     }
 })
 
