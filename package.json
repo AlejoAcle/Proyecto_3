@@ -6,7 +6,12 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node server2.js",
-    "dev": "nodemon server2.js"
+    "server": "nodemon server2.js",
+    "client": "cd client && npm run start",
+    "server-install": "npm install",
+    "client-install": "cd client && npm install",
+    "install-all": "concurrently \"npm run server-install\" \"npm run client-install\"",
+    "dev": "concurrently \"npm run server\" \"npm run client\""
   },
   "author": "Alejo",
   "license": "ISC",
@@ -16,6 +21,8 @@
   "dependencies": {
     "bcrypt": "^5.0.1",
     "cloudinary": "^1.30.1",
+    "concurrently": "^7.4.0",
+    "cors": "^2.8.5",
     "dotenv": "^16.0.1",
     "express": "^4.18.1",
     "express-fileupload": "^1.4.0",

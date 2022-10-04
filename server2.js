@@ -14,7 +14,7 @@ const MarksRouter = require("./routes/MarksRouter")
 const TimeTableRouter = require("./routes/TimeTableRouter")
 const UsersRouter = require("./routes/UsersRouter")
 const WodsRouter = require("./routes/WodsRouter")
-
+const cors = require("cors")
 
 
 
@@ -26,7 +26,7 @@ app.use(express.urlencoded())
 app.use(fileUpload({
     useTempFiles:true
 }))
-
+app.use(cors())
 //endpoints
 app.use("/api",BookingRouter)
 app.use("/api",ClassesRouter)
@@ -35,6 +35,7 @@ app.use("/api",MarksRouter)
 app.use("/api",TimeTableRouter)
 app.use("/api",UsersRouter)
 app.use("/api",WodsRouter)
+
 
 //se crea la ruta UPLOAD, pero posteriomente las meto en USERSROUTER y me deshago de upload router
 

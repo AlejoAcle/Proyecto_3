@@ -20,6 +20,10 @@ user:{
 },
 numTotPeople:{
     type: Array
+},
+typeWod:{
+    type:String
+
 }
 
 })

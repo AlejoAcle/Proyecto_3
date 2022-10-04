@@ -11,7 +11,7 @@ const TimeTable = require("../models/TimeTable")
 //RUTA POST
 BookingRouter.post("/newBooking",auth, async (req,res)=>{
 
-    const{claseId,timeTableId} = req.body
+    const{classID,timeTableID} = req.body
     try{
         const user = await Users.findById(req.user.id)
         if (!user) return res.status(400).json({
@@ -19,14 +19,14 @@ BookingRouter.post("/newBooking",auth, async (req,res)=>{
             message: "Usuario no logueado"
         })
 
-        if (!claseId || !timeTableId ){
+        if (!classID || !timeTableID ){
             return res.status(400).send({
                 success:true,
                 message:"Completa los campos"
             })
         }
 
-        const currentTimeTable = await TimeTable.findById(timeTableId)
+        const currentTimeTable = await TimeTable.findById(timeTableID)
         let found = false
 
         currentTimeTable.numTotPeople.map((findUser)=>{
@@ -56,15 +56,15 @@ BookingRouter.post("/newBooking",auth, async (req,res)=>{
         }
     
 
-        newBooking = new Booking({
+        let newBooking = new Booking({
             user: req.user.id,
-            class: claseId,
-            timeTable: timeTableId
+            class: classID,
+            timeTable: timeTableID
         })
         await newBooking.save()
 
         
-         await TimeTable.findByIdAndUpdate(timeTableId, {
+         await TimeTable.findByIdAndUpdate(timeTableID, {
             $push: {numTotPeople: user._id }
         })
         

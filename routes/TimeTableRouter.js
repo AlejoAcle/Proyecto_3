@@ -8,7 +8,7 @@ const authAdmin = require("../middleware/authAdmin")
 
 
 TimeTableRouter.post("/newTimeTable/:dateID", auth,authAdmin ,async (req,res)=>{
-    const {time, nPeople} = req.body
+    const {time, nPeople, typeWod} = req.body
     const {dateID} = req.params
     try {
         // console.log("ID de clase", dateID)
@@ -49,6 +49,7 @@ TimeTableRouter.post("/newTimeTable/:dateID", auth,authAdmin ,async (req,res)=>{
         const newDate = new TimeTable({
             time,
             nPeople,
+            typeWod,
             date: dateID
         })
     

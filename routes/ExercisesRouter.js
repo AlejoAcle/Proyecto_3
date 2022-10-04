@@ -7,6 +7,32 @@ const Users = require("../models/Users")
 const Marks = require("../models/Marks")
 const authAdmin = require("../middleware/authAdmin")
 
+//ruta que devuelva todos los ejercicios
+
+// ExercisesRouter.get("/allexercices", auth, async (req, res)=>{
+//         try {
+//             const user = await Users.findById(req.user.id)     
+//             if (!user) return res.status(500).json({          
+//                 success: false,
+//                 message: `El usuario no está logueado`
+//             })
+    
+//             let exercices = await Exercices.find({})
+//             res.status(200).json({
+//                 success: true,
+//                 exercices
+//             })
+    
+//         } catch (error) {
+//             return res.status(500).json({
+//                 success: false,
+//                 message: error.message
+//             })  
+//         }
+//     })
+
+
+
 
 //esta ruta permite ver las marcas ya creadas, ahora hay que meter el auth
 //con auth la ruta es privada, solo accedes si estás login, si no devuelve error no hay token del auth.js
@@ -40,7 +66,7 @@ ExercisesRouter.get("/exercicesUser", auth, async (req, res) => {
 
 ExercisesRouter.get("/marksUserList/:id", auth, async (req, res) => {
     const exerciceID = req.params.id
-
+    console.log(exerciceID)
     const user = await Users.findById(req.user.id)
     if (!user) return res.status(400).json({
         success: false, 
@@ -61,12 +87,13 @@ ExercisesRouter.get("/marksUserList/:id", auth, async (req, res) => {
 })
 
 //OJO:si se queda oscuro sin error, siempre que haya dos returns, hay algo sin cerrar bien, en una condicion solo puede existir un Return.
-ExercisesRouter.post("/newExercises", auth, async (req, res) =>{
+//le quito authadmin para habilitar al usuario en react poder ver los ejercicios y subir su marca
+ExercisesRouter.post("/newExercises",auth, async (req, res) =>{
     try {
         const {nameExercice} = req.body
         // const {userID} = req.user
         const user = await Users.findById(req.user.id)  
-        // console.log(user)   // Busca en el modelo de usuario si encuentra la ID pasada por token
+        console.log(user)   // Busca en el modelo de usuario si encuentra la ID pasada por token
         if (!user) return res.status(500).json({           // Si no encuentra la id de usuario es que no está logueado
             success: false,
             message: `El usuario no está logueado`

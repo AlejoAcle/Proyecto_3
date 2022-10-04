@@ -60,8 +60,8 @@ UsersRouter.post("/register", async (req, res)=>{
             surname,
             email,
             password: passwordHash,  // Aquí le pasamos la pass hasheada ya que el valor ha cambiado
-            // imagen:  {"public_id": "", "url": "https://res.cloudinary.com/dzenpc7wi/image/upload/v1642780148/crossfitAPP/auxt7ab5smg7879zbq4f.webp"}
-            imagen
+            imagen:  {"public_id": "", "url": "https://res.cloudinary.com/kaelego/image/upload/v1664807242/CrossFit%20Upload/lemon_logo_ctybfk.png"}
+            // imagen
         })
         await newUser.save()
 
@@ -153,33 +153,35 @@ UsersRouter.get("/profile", auth, async (req,res) =>{
 UsersRouter.put("/updateProfile", auth, async (req, res) =>{
     
     try {
-        const {name, surname,  password, imagen} = req.body // la imagen la paso por row y la uno en el front
-       
-
+        const { password, imagen} = req.body // la imagen la paso por row y la uno en el front
+        // name, surname, 
         const user = await Users.findById(req.user.id)     // Busca en el modelo de usuario si encuentra la ID pasada por token
         if (!user) return res.status(500).json({           // Si no encuentra la id de usuario es que no está logueado
             success: false,
             message: `El usuario no está logueado`
         })
 
-        if (!name && !surname && !password && !imagen){  // Si están todos los campos en blanco salta el error
+
+
+        // !name && !surname &&
+        if ( !password && !imagen){  // Si están todos los campos en blanco salta el error
             return res.status(400).json({
                 success: false, 
                 message: "No puede dejar todos los campos en blanco"
             })
         }
-        let nameModify
-        if (name){
-            if (name.length > 0){
-            nameModify = name 
-            }
-        }   
+        // let nameModify
+        // if (name){
+        //     if (name.length > 0){
+        //     nameModify = name 
+        //     }
+        // }   
 
         // name ? nameModify = name : name = undefined
-        let surnameModify
-        if (surname){     
-            if(surname.length >0) surnameModify = surname
-        }
+        // let surnameModify
+        // if (surname){     
+        //     if(surname.length >0) surnameModify = surname
+        // }
         
     
 
@@ -196,8 +198,8 @@ UsersRouter.put("/updateProfile", auth, async (req, res) =>{
     }
 
 
-
-        await Users.findByIdAndUpdate(req.user.id, {name: nameModify, surname: surnameModify, password: passwordHash, imagen})
+    // name: nameModify, surname: surnameModify,
+        await Users.findByIdAndUpdate(req.user.id, { password: passwordHash, imagen})
         res.status(200).json({
             success: true,
             message: `Tu perfil se ha actualizado correctamente`
